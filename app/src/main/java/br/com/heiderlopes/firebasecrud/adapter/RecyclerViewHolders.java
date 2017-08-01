@@ -36,7 +36,7 @@ public class RecyclerViewHolders extends RecyclerView.ViewHolder{
 
                 DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
 
-                Query query = ref.orderByChild("tarefas").equalTo(taskTitle);
+                Query query = ref.child("tarefas").orderByChild("descricao").equalTo(taskTitle);
 
                 query.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override

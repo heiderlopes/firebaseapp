@@ -1,27 +1,27 @@
 {
   "project_info": {
-    "project_number": "298875986884",
-    "firebase_url": "https://fir-crud-21312.firebaseio.com",
-    "project_id": "fir-crud-21312",
-    "storage_bucket": "fir-crud-21312.appspot.com"
+    "project_number": "998634432608",
+    "firebase_url": "https://fir-demo-e9f72.firebaseio.com",
+    "project_id": "fir-demo-e9f72",
+    "storage_bucket": "fir-demo-e9f72.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:298875986884:android:e2772adfdaf2bc75",
+        "mobilesdk_app_id": "1:998634432608:android:e2772adfdaf2bc75",
         "android_client_info": {
           "package_name": "br.com.heiderlopes.firebasecrud"
         }
       },
       "oauth_client": [
         {
-          "client_id": "298875986884-all4t5gpe7iqedgod0uspvsu2qjicbss.apps.googleusercontent.com",
+          "client_id": "998634432608-m00i9ee47ggh5ud6ej4n6uq5mo36i8vs.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyALWkmt7qHjRt9PkmSBHavcHYRGHDA8Lr4"
+          "current_key": "AIzaSyDYgndCVLzU7nA1vuCYgiM7sySqCmzNKMI"
         }
       ],
       "services": {
