@@ -18,11 +18,10 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import br.com.heiderlopes.firebasecrud.MainActivity;
 import br.com.heiderlopes.firebasecrud.R;
 import br.com.heiderlopes.firebasecrud.adapter.RecyclerViewAdapter;
 import br.com.heiderlopes.firebasecrud.model.Tarefa;
@@ -36,19 +35,18 @@ public class TarefaFragment extends Fragment {
     private Button btAdd;
 
     private DatabaseReference databaseReference;
-    private List<Tarefa> tarefas;
+    private Map<String, Tarefa> tarefas;
 
     public TarefaFragment() {
 
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_tarefa, container, false);
 
-        tarefas = new ArrayList<>();
+        tarefas = new LinkedHashMap<>();
         databaseReference = FirebaseDatabase.getInstance().getReference("tarefas");
 
         etTarefa = (EditText) v.findViewById(R.id.etTarefa);
@@ -96,10 +94,11 @@ public class TarefaFragment extends Fragment {
 
         return v;
     }
-    private void getAll(DataSnapshot dataSnapshot){
+    private void getAll(DataSnapshot dataSnapshot) {
         for(DataSnapshot singleSnapshot : dataSnapshot.getChildren()){
             String descricao = singleSnapshot.getValue(String.class);
-            tarefas.add(new Tarefa(descricao));
+            String id = singleSnapshot.getRef().getParent().getKey();
+            tarefas.put(id, new Tarefa(descricao));
         }
         recyclerViewAdapter = new RecyclerViewAdapter(getContext(), tarefas);
         rvTarefas.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -108,15 +107,15 @@ public class TarefaFragment extends Fragment {
 
     private void delete(DataSnapshot dataSnapshot){
         for(DataSnapshot singleSnapshot : dataSnapshot.getChildren()) {
-            String taskTitle = singleSnapshot.getValue(String.class);
-            for(int i = 0; i < tarefas.size(); i++){
-                if(tarefas.get(i).getDescricao().equals(taskTitle)){
-                    tarefas.remove(i);
-                }
+            String id = singleSnapshot.getRef().getParent().getKey();
+
+            if (tarefas.containsKey(id)) {
+                tarefas.remove(id);
             }
-            recyclerViewAdapter.notifyDataSetChanged();
-            recyclerViewAdapter = new RecyclerViewAdapter(getContext(), tarefas);
-            rvTarefas.setAdapter(recyclerViewAdapter);
         }
+
+        recyclerViewAdapter.notifyDataSetChanged();
+        recyclerViewAdapter = new RecyclerViewAdapter(getContext(), tarefas);
+        rvTarefas.setAdapter(recyclerViewAdapter);
     }
 }

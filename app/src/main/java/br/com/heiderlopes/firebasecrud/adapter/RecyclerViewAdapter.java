@@ -6,7 +6,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import br.com.heiderlopes.firebasecrud.R;
 import br.com.heiderlopes.firebasecrud.model.Tarefa;
@@ -15,8 +17,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewHolder
     private List<Tarefa> tarefas;
     protected Context context;
 
-    public RecyclerViewAdapter(Context context, List<Tarefa> tarefas) {
-        this.tarefas = tarefas;
+    public RecyclerViewAdapter(Context context, Map<String, Tarefa> tarefas) {
+        this.tarefas = new ArrayList<>(tarefas.values());
         this.context = context;
     }
 
