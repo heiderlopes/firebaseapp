@@ -26,6 +26,7 @@ public class MeuFirebaseMessagingService extends FirebaseMessagingService {
 
         // Verifica se a mensagem contem payload.
         if (remoteMessage.getNotification() != null) {
+            showNotification(remoteMessage.getNotification().getTitle(), remoteMessage.getNotification().getBody());
 
         }
     }

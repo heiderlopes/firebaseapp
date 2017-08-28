@@ -1,6 +1,7 @@
 package br.com.heiderlopes.firebasecrud.views.activities;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -10,13 +11,24 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.messaging.FirebaseMessaging;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
+
+import java.io.ByteArrayOutputStream;
 
 import br.com.heiderlopes.firebasecrud.R;
 import br.com.heiderlopes.firebasecrud.views.fragments.TarefaFragment;
@@ -27,12 +39,50 @@ public class MainActivity extends AppCompatActivity
     private FirebaseAuth auth;
     private FirebaseAuth.AuthStateListener authListener;
 
+    private ImageView ivLogo;
+
+    private FirebaseStorage storage;
+    private StorageReference storageReference;
+
+    private void uploadFoto() {
+
+        storage = FirebaseStorage.getInstance();
+        storageReference = storage.getReferenceFromUrl("gs://fir-demo-e9f72.appspot.com").child("logo");
+
+        ivLogo.setDrawingCacheEnabled(true);
+        ivLogo.measure(View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED), View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
+        ivLogo.layout(0, 0, ivLogo.getMeasuredWidth(), ivLogo.getMeasuredHeight());
+        ivLogo.buildDrawingCache();
+        Bitmap bitmap = Bitmap.createBitmap(ivLogo.getDrawingCache());
+
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
+        byte[] data = outputStream.toByteArray();
+
+        UploadTask uploadTask = storageReference.putBytes(data);
+        uploadTask.addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+                Log.i("FIREBASE", "Deu ruim");
+            }
+        }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                Log.i("FIREBASE", "Deu bom");
+            }
+        });
+    }
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        ivLogo = (ImageView) findViewById(R.id.ivLogo);
+        //uploadFoto();
 
         FirebaseMessaging.getInstance().subscribeToTopic("android");
 
