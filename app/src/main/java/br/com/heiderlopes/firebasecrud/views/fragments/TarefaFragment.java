@@ -1,4 +1,4 @@
-package br.com.heiderlopes.firebasecrud.fragments;
+package br.com.heiderlopes.firebasecrud.views.fragments;
 
 
 import android.os.Bundle;
@@ -22,7 +22,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.util.ArrayList;
 import java.util.List;
 
-import br.com.heiderlopes.firebasecrud.MainActivity;
 import br.com.heiderlopes.firebasecrud.R;
 import br.com.heiderlopes.firebasecrud.adapter.RecyclerViewAdapter;
 import br.com.heiderlopes.firebasecrud.model.Tarefa;

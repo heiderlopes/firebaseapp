@@ -11,7 +11,7 @@ import android.support.v4.app.NotificationCompat;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
-import br.com.heiderlopes.firebasecrud.MainActivity;
+import br.com.heiderlopes.firebasecrud.views.activities.MainActivity;
 import br.com.heiderlopes.firebasecrud.R;
 
 public class MeuFirebaseMessagingService extends FirebaseMessagingService {
